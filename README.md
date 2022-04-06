@@ -1,9 +1,14 @@
 # Deposit microservice - Tosan Banking=Loan project
-There are Four microServices in this project.
+There are Four microServices in this project: 
+  - [Customer](https://github.com/keremlin/Customer-microservice---Tosan-Banking) : This project is providing customer related services such as Registration.
+  - [Deposit](https://github.com/keremlin/Deposit-microservice---Tosan-Banking) : This project aims to handle deposit related works.
+  - [Transactions](https://github.com/keremlin/Transactions-microservice---Tosan-Banking) : All transactions that happened in other services will be save using this service.
+  - [Loans]() : The project create Loans and bind them to other services.
 ## Documents
+### Compile and Run
 ### Code
 This project is based on Spring boot 2.6.4 and JDK 11. 
-There are Five packages in this project :
+There are Six packages (Layers) in this project :
 ```bash
   ├───java
   │   └───com
@@ -17,6 +22,7 @@ There are Five packages in this project :
   │               └───services
   └───resources
 ```
+The Layers have separate responsibilities based on [Solid principles](https://www.educative.io/edpresso/what-are-the-solid-principles-in-java).
 All rest controllers are placed in the controller package. The connection between services is based on REST. The REST service is implemented by RESTfull standards(link).
 
 Exceptions package is included by user-defined exceptions and also related handlers. Models and related validations are in the model package.
@@ -38,5 +44,6 @@ All data pass to the controllers should check by Bean validation. Therefore we u
 ### Exceptions & Exception Handling
 The projects has separated layer of exceptions. We have validation exceptions that invoke by DTOs and models. We also have some runtimeException like NinNotFoundException that is related to incorrect user inputs.
 All exceptions handle by HandleValidationException and return appropriate HTTP code to user if needed.
-
+### Unit-Test Cases
+For each service, we have appropriate test cases to ensure that projects' parts work fine. The test cases is built using Junit and is mocked using Mockito.
      
