@@ -1,15 +1,11 @@
 package com.tosan.deposit.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.tosan.deposit.dto.*;
-import com.tosan.deposit.model.CurrencyType;
 import com.tosan.deposit.model.Deposit;
-import com.tosan.deposit.model.DepositState;
 import com.tosan.deposit.model.DepositType;
 import com.tosan.deposit.services.DepositService;
 
@@ -82,9 +78,9 @@ public class DepositController {
         );
     }
     @PostMapping("/withdraw")
-    public ResponseEntity<Deposit> withdraw(@Valid @RequestBody DepositActionsDto depositActiondto){
+    public ResponseEntity<Deposit> withdraw(@Valid @RequestBody DepositActionsDto depositActionDTO){
         return ResponseEntity.ok().body(
-          depositService.withdraw(depositActiondto.getFrom(), depositActiondto.getAmount())
+          depositService.withdraw(depositActionDTO.getFrom(), depositActionDTO.getAmount())
         );
     }
    
@@ -93,6 +89,18 @@ public class DepositController {
         return ResponseEntity.ok().body(
                 depositService.transfer(depositActionDto.getFrom(), depositActionDto.getTo(),
                         depositActionDto.getAmount()));
+    }
+    @GetMapping("/{depositNumber}/isValid")
+    public ResponseEntity<Boolean> isDepositNumberValid(@PathVariable int depositNumber){
+        return ResponseEntity.ok().body(
+            depositService.isDepositNumberIsValid(depositNumber)
+        );
+    }
+   
+    @GetMapping("/{depositNumber}/{amount}/withdrawInstallment")
+    public ResponseEntity<Boolean> withdrawInstallment(@PathVariable int depositNumber, @PathVariable int amount) {
+        return ResponseEntity.ok().body(
+                depositService.withdrawInstallment(depositNumber,amount));
     }
     
 }

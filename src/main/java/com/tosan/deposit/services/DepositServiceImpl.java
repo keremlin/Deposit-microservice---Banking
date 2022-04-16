@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Validated
@@ -35,6 +36,7 @@ public class DepositServiceImpl implements DepositService {
     private TransactionsResources transactionResource;
 
     @Override
+    @Transactional
     public Deposit createDeposit(String nin, int depositNumber, DepositType depositType, CurrencyType currencyType) {
         Optional<CustomerDto> customer = customerResource.findCustomerByNin(nin);
         if (customer.isPresent()) {
@@ -60,6 +62,7 @@ public class DepositServiceImpl implements DepositService {
     }
 
     @Override
+    @Transactional
     public Deposit changeDepositState(DepositState state, int depositNumber) {
         Deposit deposit = repo.findByDepositNumber(depositNumber)
                 .orElseThrow(() -> new DepositNotFoundException(depositNumber+""));
@@ -83,6 +86,7 @@ public class DepositServiceImpl implements DepositService {
     }
    
     @Override
+    @Transactional
     public Deposit depositing(int depositNumber, int amount) {
         Deposit tempDeposit = repo.findByDepositNumber(depositNumber)
                 .orElseThrow(() -> new DepositNotFoundException(depositNumber + ""));
@@ -99,6 +103,7 @@ public class DepositServiceImpl implements DepositService {
     }
 
     @Override
+    @Transactional
     public Deposit withdraw(int depositNumber, int amount) {
         Deposit tempDeposit = repo.findByDepositNumber(depositNumber)
                 .orElseThrow(() -> new DepositNotFoundException(depositNumber + ""));
@@ -119,6 +124,7 @@ public class DepositServiceImpl implements DepositService {
     }
 
     @Override
+    @Transactional
     public List<Deposit> transfer(int from, int to, int amount) {
         List<Deposit> list = new ArrayList<>();
 
@@ -157,6 +163,16 @@ public class DepositServiceImpl implements DepositService {
         else
             return false;
     }
+    @Override
+    public Boolean isDepositNumberIsValid(int depositNumber){
+        return repo.findByDepositNumber(depositNumber).isPresent();
+    }
+    @Override
+    public Boolean withdrawInstallment(int depositNumber,int amount){
+        withdraw(depositNumber, amount);
+        return true;
+    }
+
 
     
     

@@ -25,4 +25,8 @@ public interface DepositService {
     public List<Deposit> getAllDepositByNin(String nin);
     
     public boolean hasNinAnyDeposit(String nin);
+
+    public Boolean isDepositNumberIsValid(int depositNumber);
+
+    public Boolean withdrawInstallment(int depositNumber,int amount);
 }
