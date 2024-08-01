@@ -1,4 +1,4 @@
-# Deposit microservice - Tosan Banking=Loan project - Snapshot
+# Deposit microservice - Banking=Loan project - Snapshot
 There are Four microServices in this project: 
   - [Customer](https://github.com/keremlin/Customer-microservice---Tosan-Banking) : This project is providing customer-related services such as Registration.
   - [Deposit](https://github.com/keremlin/Deposit-microservice---Tosan-Banking) : This project aims to handle deposit-related works.
