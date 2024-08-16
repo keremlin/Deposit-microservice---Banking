@@ -1,32 +1,28 @@
 package com.tosan.deposit.repositories;
 
-import java.util.Optional;
-
 import com.tosan.deposit.dto.TransactionDto;
-
+import com.tosan.deposit.kafka.KafkaProducer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Profile("EnableRestTemplate")
+import java.util.Optional;
+@Profile("EnableKafka")
 @Slf4j
 @Service
-public class TransactionsResourcesImpl implements TransactionsResources{
-    
+public class TransactionsResourcesImplByKafka implements TransactionsResources {
     @Autowired
-    private RestTemplate rest;
+    private KafkaProducer kafkaProducer;
 
     @Override
     public Optional<TransactionDto> registerTransaction(TransactionDto transaction) {
-        try{
-            return Optional.of( rest.postForObject("http://localhost:8070/api/transaction/save", transaction,TransactionDto.class));
-        }catch(Exception ex){
+        try {
+            kafkaProducer.sendMessage(transaction);
+            return Optional.of(transaction);
+        } catch (Exception ex) {
             log.error(ex.getMessage());
             return Optional.empty();
         }
     }
-    
 }
